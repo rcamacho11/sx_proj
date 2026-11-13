@@ -43,6 +43,10 @@ Dev loop without containers: `dotnet run --project api/src/Plate.Api` (listens o
 
 Compose healthchecks use `/health/ready` and `/healthz` every 10 s; `web` starts after `api` is healthy.
 
+Compose limits: `api` 512 MB and 128 pids, `web` 128 MB and 128 pids.
+
+This build has no EF migration assembly. `/health/ready` returns 503 when `IPendingMigrations` reports any pending migration. The data step wires that check to EF. Until then the list is empty, so a healthy process is the SQLite open plus `PRAGMA quick_check`.
+
 ## Logs
 
 JSON to stdout, one object per line, read with `docker compose logs`. Every line from a request carries `requestId` (from `X-Request-Id` or generated) and `partId` when there is one.

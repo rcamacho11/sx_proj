@@ -75,7 +75,7 @@ Frontend unit and e2e: one test per line of the "Check before calling the fronte
 
 Runs on every push and pull request. All jobs in the workflow must pass to merge.
 
-`.github/workflows/ci.yml` currently runs `secrets` only. Add `api`, `web`, `e2e`, and `images` when those projects exist.
+`.github/workflows/ci.yml` runs `secrets`, `api`, and `images`. Add `web` and `e2e` when those projects exist. `images` builds both Dockerfiles for the runner arch and does not push.
 
 | Job | Steps |
 | --- | --- |
