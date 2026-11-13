@@ -18,6 +18,8 @@ open http://localhost:8088
 
 Everything binds to 127.0.0.1. Parts live in the `plate-data` Docker volume. Backups, logs, and troubleshooting: [docs/operations.md](docs/operations.md).
 
+Swagger UI is not on that site. For a local look at the API document, run `dotnet run --project api/src/Plate.Api` and open http://localhost:5080/docs.
+
 ## How it fits together
 
 ```

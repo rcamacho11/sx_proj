@@ -35,6 +35,7 @@ builder.Services.AddOptions<PlateOptions>()
     })
     .ValidateOnStart();
 builder.Services.AddSingleton<IPendingMigrations, NoPendingMigrations>();
+ApiDocs.Add(builder);
 
 var app = builder.Build();
 
@@ -76,7 +77,12 @@ app.Use(async (context, next) =>
     }
 });
 
-app.MapGet("/health/live", () => Results.Ok());
+ApiDocs.Map(app);
+
+app.MapGet("/health/live", () => Results.Ok())
+    .WithName("GetLive")
+    .WithTags("Health")
+    .WithSummary("Process is up.");
 app.MapGet("/health/ready", (IOptions<PlateOptions> options, IPendingMigrations migrations, ILogger<Program> logger) =>
 {
     var grok = options.Value.GrokConfigured;
@@ -96,7 +102,10 @@ app.MapGet("/health/ready", (IOptions<PlateOptions> options, IPendingMigrations 
     }
 
     return Results.Ok(new ReadyResponse(true, grok));
-});
+})
+    .WithName("GetReady")
+    .WithTags("Health")
+    .WithSummary("SQLite is open and no migration is pending. grok is true only when the key and the model are both set.");
 
 app.Run();
 

@@ -33,6 +33,8 @@ docker compose down           # stop; the volume and your parts stay
 
 Dev loop without containers: `dotnet run --project api/src/Plate.Api` (listens on 5080, DB at `./.data/plate.db`) and `npm start` in `web/` (proxies `/api` to 5080).
 
+Swagger UI is that dev process only. Open http://localhost:5080/docs. `launchSettings.json` sets `PLATE_API_DOCS=true` and `Development`. Compose does not. Port 8088 returns 404 for `/docs`, `/openapi`, and `/swagger`. Production ignores `PLATE_API_DOCS`, so setting the flag on the container still does not serve the page.
+
 ## Health
 
 | Probe | Healthy when |
