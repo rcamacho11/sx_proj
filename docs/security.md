@@ -1,6 +1,6 @@
 # Security
 
-Status: proposal for a local, single-user app on a laptop. No accounts in v1. Do not add a fake login. "Local" does not mean "no attacker": any web page open in the same browser can send requests to `localhost`.
+Status: approved 2026-11-13. Local, single-user app on a laptop. No accounts in v1. Do not add a fake login. "Local" does not mean "no attacker": any web page open in the same browser can send requests to `localhost`.
 
 ## What we are protecting
 
@@ -76,7 +76,7 @@ One C# path, `PartCommands.Execute` → `Apply`, used by the action route and by
 - Header includes the line that says not to run it on a machine.
 - Motion numbers are formatted by one invariant-culture formatter from computed values.
 - Comments may include the part name. Allow letters, digits, space, hyphen, underscore. Strip everything else, including newlines, parentheses, semicolons, and percent signs. Clamp to 40 characters.
-- Do not emit `G28` or `G30`, and use one work offset (`G54`). The `G43` question is an open decision in `GROK.md`.
+- Do not emit `G28` or `G30`, and use one work offset (`G54`). After each tool change emit `G43 H<n>` with `H` equal to `T`. Emit `G49` once before `M30`.
 - No "send to machine" control, no serial or network output, no DNC.
 
 ## Chat text

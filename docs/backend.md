@@ -1,6 +1,6 @@
 # Backend
 
-Status: proposal. One C# process (`api`). It stores the part, validates actions, keeps revisions, writes G-code, and calls Grok. It assumes exactly one `api` instance; the per-part lock below is in-process.
+Status: approved 2026-11-13. One C# process (`api`). It stores the part, validates actions, keeps revisions, writes G-code, and calls Grok. It assumes exactly one `api` instance; the per-part lock below is in-process.
 
 ## Layout, when we create it
 
@@ -44,7 +44,7 @@ Migrations are EF Core migrations checked into `Plate.Data/Migrations`. At start
 | Field | Rule |
 | --- | --- |
 | Name | 1–40 characters after the comment sanitize rule (letters, digits, space, hyphen, underscore) |
-| Material | One of the keys in the feed table (`6061-T6`, `7075-T6`, `MIC-6`, `Delrin`, `HDPE` at scaffold) |
+| Material | One of `6061-T6`, `7075-T6`, `MIC-6`, `Delrin`, `HDPE`. Confirmed 2026-11-13. Feeds and speeds are placeholders and the operation text says so. |
 | Stock length and width | 5–500 mm |
 | Thickness | 1–100 mm |
 | Hole drilled diameter | 0.5–50 mm |
@@ -178,16 +178,16 @@ Structure:
 1. `%`, then comments: sanitized part name, `TRAINING OUTPUT - DO NOT RUN ON A MACHINE`, units and origin, stock size, material, generator version.
 2. `G21 G90 G17 G94`, then `G54`. Nothing from model text appears outside a sanitized comment.
 3. Operations, numbered 10, 20, …:
-   - Drilling, grouped by drill diameter, smallest first. One tool per diameter: `T<n> M06`, `S<rpm> M03`, `G00 Z25.000`, `G00` to the first hole, `G81 … R2.000 F<feed>` then bare `X Y` for the rest, `G80`, `G00 Z25.000`, `M05`. Holes in a group are ordered nearest-neighbour from the origin.
+   - Drilling, grouped by drill diameter, smallest first. One tool per diameter: `T<n> M06`, `G43 H<n>` (`H` equals `T`), `S<rpm> M03`, `G00 Z25.000`, `G00` to the first hole, `G81 … R2.000 F<feed>` then bare `X Y` for the rest, `G80`, `G00 Z25.000`, `M05`. Holes in a group are ordered nearest-neighbour from the origin. Every later tool change follows the same `T<n> M06` then `G43 H<n>` pair.
    - Hole depth: through holes go to `Z-(thickness + 0.3 × D + 0.5)`; the 0.3 × D is the 118° drill point and 0.5 mm is breakout. Blind holes go to `Z-(depth + 0.3 × D)` so the full diameter reaches `depth`.
    - Pockets: one end mill from 1, 2, 3, 4, 6, 8, 10, 12 mm, the largest with diameter ≤ 2 × corner radius and ≤ the short side. Contour-parallel offsets at 40% stepover, axial passes of at most 0.5 × D, equal-split to the floor. Straight plunge at the pocket center at the plunge feed (center-cutting end mill assumed, stated in the operation text).
    - Slots: the largest end mill ≤ slot width. If equal, one centerline pass per depth step; otherwise centerline plus offsets. Same axial rule.
    - Taps: listed as an operation with "not in this file". No motion.
-4. `M30`, `%`. (Each operation already ended at Z25 with the spindle stopped.)
+4. `G49`, `M30`, `%`. (Each operation already ended at Z25 with the spindle stopped.)
 
 Feeds and speeds come from a static table keyed by material and tool. Every value is labeled a placeholder in the operation text.
 
-Never emitted: `G28`, `G30`, `G43`/`G49`, a second work offset, `M98`/`M99`, or any line built from model text. (Whether to emit `G43 H<n>` is an open decision in `GROK.md`.)
+Never emitted: `G28`, `G30`, a second work offset, `M98`/`M99`, or any line built from model text. `G43 H<n>` is required after each tool change. `G49` is required once, immediately before `M30`.
 
 `runnable` is false when any feature was skipped or any issue is an error. `issues` are `{ featureId, severity, message }`. Threaded holes add a warning that the tap is not in the file.
 

@@ -1,6 +1,6 @@
 # Design
 
-Status: proposal, reflected in `docs/design-artifact.md` and the Figma file `space_x_proj`, page `Plate`. Not approved. No UI has been built.
+Status: approved 2026-11-13, with `docs/design-artifact.md` and the Figma file `space_x_proj`, page `Plate`. No UI has been built.
 
 The look is the overlap of the public SpaceX, Tesla, and Grok/xAI sites, sampled 2026. It is not their logo and not a claim of an official brand kit. No logos, no wordmarks, no product names other than Plate and Grok.
 
@@ -93,7 +93,7 @@ Grok section:
 - While running: live dot, `GROK IS WORKING`, a ghost `STOP`, and `ROUND n OF 8` in the status bar.
 - The composer ends in a light send button. Disabled composer: `rule` edge, `rule` send button.
 
-Program: the stage is replaced by a plain mat (no grid, no rulers). A banner, `TRAINING OUTPUT`, says "Do not send this file to a machine." Left column: operations numbered 10, 20, …; the setup (offset, retract, tools, stock); a small plate. Center: the numbered file with a Copy button and a footer (`N LINES · MM · ABSOLUTE · G54`). Operations that are not in the file (taps) are listed in `dim` and say so. If `runnable` is false the banner gains a second line in `error-text` naming each issue.
+Program: the stage is replaced by a plain mat (no grid, no rulers). A banner, `TRAINING OUTPUT`, says "Do not send this file to a machine." Left column: operations numbered 10, 20, …; the setup (offset, retract, tools, stock); a small plate. Center: the numbered file with a Copy button and a footer (`N LINES · MM · ABSOLUTE · G54`). There is no download button in v1. Operations that are not in the file (taps) are listed in `dim` and say so. If `runnable` is false the banner gains a second line in `error-text` naming each issue.
 
 Status bar: cursor position in shop mm on the left (`error-text` when the point is outside the stock); snap and feature count on the right.
 

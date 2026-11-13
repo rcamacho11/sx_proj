@@ -4,7 +4,7 @@ A small CAD window for one rectangular plate a 3-axis mill could cut. Draw holes
 
 > The G-code is training output. Do not run it on a machine.
 
-Status: design stage. The design artifact (`docs/design-artifact.md`) is waiting for approval. There is no application code yet, so the commands below describe the target.
+Status: design approved 2026-11-13. There is no application code yet, so the commands below describe the target. The build order is in `GROK.md`.
 
 ## Run
 

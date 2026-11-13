@@ -1,6 +1,6 @@
 # Frontend
 
-Status: proposal. Angular and TypeScript. The visual rules are in [design.md](design.md). Follow them. Do not restyle from a component.
+Status: approved 2026-11-13. Angular and TypeScript. The visual rules are in [design.md](design.md). Follow them. Do not restyle from a component.
 
 ## Role of the frontend
 

@@ -4,9 +4,9 @@ Plate is a local learning app for Richard Camacho. It is a small CAD window for 
 
 This file is the map for any later agent. Read it before writing code. Then read the doc for the area you are about to touch. Do not invent a second architecture.
 
-Also read `AGENTS.md` and `/Users/richard/Desktop/coding-practices.md`. No application code until Richard approves `docs/design-artifact.md`.
+Also read `AGENTS.md` and `/Users/richard/Desktop/coding-practices.md`. Richard approved `docs/design-artifact.md` on 2026-11-13.
 
-Status (2026-11-13): design artifact revised after a production-readiness review, not yet approved. Figma file `space_x_proj`, page `Plate`, has 8 boards built by `design/figma/screens.js`. No application code.
+Status (2026-11-13): design artifact approved. The five decisions below are locked. Figma file `space_x_proj`, page `Plate`, has 8 boards built by `design/figma/screens.js`. No application code yet. `.editorconfig` and the gitleaks CI job are in place.
 
 ## What this is not
 
@@ -60,7 +60,7 @@ Why server-side revisions: undo has to cover Grok's edits, survive a reload, and
 | File | What it decides |
 | --- | --- |
 | [README.md](README.md) | What Plate is and how to run it |
-| [docs/design-artifact.md](docs/design-artifact.md) | The artifact waiting for approval, with the review findings |
+| [docs/design-artifact.md](docs/design-artifact.md) | Approved 2026-11-13, with the review findings |
 | [docs/design.md](docs/design.md) | Tokens, screens, states, keyboard, copy |
 | [docs/tech-stack.md](docs/tech-stack.md) | Containers and the request path |
 | [docs/backend.md](docs/backend.md) | Schema, limits, actions, HTTP contract, Grok loop, G-code |
@@ -71,21 +71,19 @@ Why server-side revisions: undo has to cover Grok's edits, survive a reload, and
 | [docs/diagrams/](docs/diagrams/) | draw.io: component, deployment, sequence, state, two flows, ERD + API shape |
 | `design/figma/screens.js` | Rebuilds the Figma boards and exports `design/figma/out/*.png` |
 
-## Open decisions for Richard
+## Locked decisions (2026-11-13)
 
-| # | Question | Recommendation |
-| --- | --- | --- |
-| 1 | Emit `G43 H<n>` after each tool change? The docs currently ban it. | Emit it. A program with tool changes and no length offset is a worse teaching example, and the file is never run either way. |
-| 2 | Keep `error-text` `#FF5A5F` as a second red? | Keep. `#E82127` text fails AA on the dark surfaces. |
-| 3 | Revisions table and server undo in v1, or later? | v1. It also makes Grok's destructive calls recoverable. |
-| 4 | Offer a `.nc` download, or Copy only? | Copy only in v1. A file on disk is one step closer to a machine. |
-| 5 | Feed and speed table values | Placeholders from a public chart, labeled as placeholders. Confirm the five materials. |
+1. After every `T<n> M06`, the next line is `G43 H<n>`, with `H` equal to `T`. `G49` is the line before `M30`. Still never emit `G28`, `G30`, a second work offset, `M98`, or `M99`.
+2. `error-text` stays `#FF5A5F`. Strokes and fills stay `#E82127`.
+3. `part_revisions`, undo, and redo are in v1.
+4. The program view has Copy only. No `.nc` download in v1.
+5. Materials are `6061-T6`, `7075-T6`, `MIC-6`, `Delrin`, and `HDPE`. Feeds and speeds are placeholders from a public chart, and the operation text says so.
 
 ## Order of work, after approval
 
 Each step is one branch and one or more small commits, with its tests and docs in the same branch.
 
-1. Repo hygiene: `git init`, `.editorconfig`, CI skeleton with gitleaks (`.gitignore` and `.env.example` already exist).
+1. Done: `.editorconfig` and the gitleaks job in `.github/workflows/ci.yml`. `.gitignore` and `.env.example` already existed.
 2. Compose file that boots `api` and `web` with health checks, non-root, read-only, SQLite on a volume.
 3. C# domain: part, limits, geometry, `Apply`. Tests first for "hole outside the plate", "stock shrink that orphans a hole", "features 0.5 mm apart".
 4. Data: EF model, first migration, `PartCommands` with version and revisions, undo and redo.

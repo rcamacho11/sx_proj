@@ -2,6 +2,8 @@
 
 Plate is a local single-plate mill CAD. Angular draws the part; C# validates every edit, stores it with revisions in SQLite, runs the Grok tool loop over the xAI HTTP API, and writes training-only G-code. The screen is the SpaceX / Tesla / Grok overlap: black void, carbon surfaces, Tesla red only for errors, lime only for the Grok live dot.
 
+Approved by Richard on 2026-11-13. Locked with that approval: `G43 H<n>` after each tool change and `G49` before `M30`; `error-text` stays `#FF5A5F`; revisions and server undo are in v1; Copy only, no `.nc` download; materials are `6061-T6`, `7075-T6`, `MIC-6`, `Delrin`, and `HDPE`, with placeholder feeds labeled as such.
+
 ## Evidence
 
 Richard, earlier session:

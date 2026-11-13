@@ -4,7 +4,7 @@ Read `GROK.md`, then the doc for the area you touch. Richard's coding rules are 
 
 ## Standing orders
 
-- Do not scaffold or edit application code until Richard has approved `docs/design-artifact.md` and the Figma board for the screen exists. If `node ~/Desktop/projects/figma-agent-bridge-master/run.js --status` does not say the plugin is connected, stop on any UI work and say so.
+- Richard approved `docs/design-artifact.md` on 2026-11-13. Follow the order of work in `GROK.md`. A new screen still needs its Figma board first. If `node ~/Desktop/projects/figma-agent-bridge-master/run.js --status` does not say the plugin is connected, stop on any UI work and say so.
 - Figma pages may be unloaded; scripts that read pages call `await figma.loadAllPagesAsync()` first.
 - Never run `git commit`. Hand him `git add :/<path>` and a one-line message. No `Co-Authored-By`.
 - Never push. Richard pushes. Do not run `git push` or any command that publishes the branch. Hand him the command and stop.

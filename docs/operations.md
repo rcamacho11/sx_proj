@@ -1,6 +1,6 @@
 # Operations
 
-Status: proposal. How Plate is configured, run, backed up, upgraded, and debugged on one laptop. Nothing here exists until the Compose step in `GROK.md`'s order of work.
+Status: approved 2026-11-13. How Plate is configured, run, backed up, upgraded, and debugged on one laptop. Nothing here exists until the Compose step in `GROK.md`'s order of work.
 
 ## Configuration
 

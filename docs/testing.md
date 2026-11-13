@@ -1,6 +1,6 @@
 # Testing
 
-Status: proposal. What gets tested, where, and what CI blocks on. Test names follow `/Users/richard/Desktop/coding-practices.md`: C# methods are `test_<behavior>_when_<condition>`, TypeScript is `it("does X when Y")`.
+Status: approved 2026-11-13. What gets tested, where, and what CI blocks on. Test names follow `/Users/richard/Desktop/coding-practices.md`: C# methods are `test_<behavior>_when_<condition>`, TypeScript is `it("does X when Y")`.
 
 ## Layers
 
@@ -73,7 +73,9 @@ Frontend unit and e2e: one test per line of the "Check before calling the fronte
 
 ## CI (GitHub Actions)
 
-Runs on every push and pull request. All jobs must pass to merge.
+Runs on every push and pull request. All jobs in the workflow must pass to merge.
+
+`.github/workflows/ci.yml` currently runs `secrets` only. Add `api`, `web`, `e2e`, and `images` when those projects exist.
 
 | Job | Steps |
 | --- | --- |

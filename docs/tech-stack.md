@@ -1,6 +1,6 @@
 # Tech stack
 
-Status: proposal. Versions get pinned the day we scaffold and are then changed only by Dependabot PRs or a `chore:` commit.
+Status: approved 2026-11-13. Versions get pinned the day we scaffold and are then changed only by Dependabot PRs or a `chore:` commit.
 
 ## Chosen stack
 
