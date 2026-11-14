@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+    <PropertyGroup>
+        <TargetFramework>net10.0</TargetFramework>
+        <RootNamespace>Plate.Api</RootNamespace>
+        <AssemblyName>Plate.Api</AssemblyName>
+    </PropertyGroup>
+    <ItemGroup>
+        <InternalsVisibleTo Include="Plate.Api.Tests" />
+    </ItemGroup>
+    <ItemGroup>
+        <PackageReference Include="Microsoft.AspNetCore.OpenApi" />
+        <PackageReference Include="Microsoft.Data.Sqlite" />
+        <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" />
+    </ItemGroup>
+</Project>

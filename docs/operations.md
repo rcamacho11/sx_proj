@@ -33,6 +33,8 @@ docker compose down           # stop; the volume and your parts stay
 
 Dev loop without containers: `dotnet run --project api/src/Plate.Api` (listens on 5080, DB at `./.data/plate.db`) and `npm start` in `web/` (proxies `/api` to 5080).
 
+Swagger UI is that dev process only. Open http://localhost:5080/docs. `launchSettings.json` sets `PLATE_API_DOCS=true` and `Development`. Compose does not. Port 8088 returns 404 for `/docs`, `/openapi`, and `/swagger`. Production ignores `PLATE_API_DOCS`, so setting the flag on the container still does not serve the page.
+
 ## Health
 
 | Probe | Healthy when |
@@ -42,6 +44,10 @@ Dev loop without containers: `dotnet run --project api/src/Plate.Api` (listens o
 | `web` `/healthz` | nginx is serving |
 
 Compose healthchecks use `/health/ready` and `/healthz` every 10 s; `web` starts after `api` is healthy.
+
+Compose limits: `api` 512 MB and 128 pids, `web` 128 MB and 128 pids.
+
+This build has no EF migration assembly. `/health/ready` returns 503 when `IPendingMigrations` reports any pending migration. The data step wires that check to EF. Until then the list is empty, so a healthy process is the SQLite open plus `PRAGMA quick_check`.
 
 ## Logs
 

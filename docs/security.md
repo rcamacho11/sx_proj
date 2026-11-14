@@ -35,6 +35,7 @@ The system prompt is not the control. The control is that model text never becom
 - Browser to `web` only. nginx serves the Angular build and proxies `/api/` to `api:8080` on the internal network.
 - Same origin, so no CORS policy is configured at all. Do not add `AllowAnyOrigin`.
 - `api` makes one kind of outbound call: HTTPS to `XAI_BASE_URL`. The browser never calls xAI.
+- Swagger UI and `GET /openapi/v1.json` are mapped only when the environment is Development and `PLATE_API_DOCS` is exactly `true`. Compose runs Production and does not set the flag. nginx answers 404 for `/docs`, `/openapi`, and `/swagger`. `api` publishes no host port.
 
 nginx response headers:
 

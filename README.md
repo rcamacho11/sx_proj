@@ -4,7 +4,7 @@ A small CAD window for one rectangular plate a 3-axis mill could cut. Draw holes
 
 > The G-code is training output. Do not run it on a machine.
 
-Status: design approved 2026-11-13. There is no application code yet, so the commands below describe the target. The build order is in `GROK.md`.
+Status: design approved 2026-11-13. Compose boots a health shell (`api` and `web`). The drawing is not in this build. The build order is in `GROK.md`.
 
 ## Run
 
@@ -17,6 +17,8 @@ open http://localhost:8088
 ```
 
 Everything binds to 127.0.0.1. Parts live in the `plate-data` Docker volume. Backups, logs, and troubleshooting: [docs/operations.md](docs/operations.md).
+
+Swagger UI is not on that site. For a local look at the API document, run `dotnet run --project api/src/Plate.Api` and open http://localhost:5080/docs.
 
 ## How it fits together
 

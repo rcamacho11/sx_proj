@@ -6,7 +6,7 @@ This file is the map for any later agent. Read it before writing code. Then read
 
 Also read `AGENTS.md` and `/Users/richard/Desktop/coding-practices.md`. Richard approved `docs/design-artifact.md` on 2026-11-13.
 
-Status (2026-11-13): design artifact approved. The five decisions below are locked. Figma file `space_x_proj`, page `Plate`, has 8 boards built by `design/figma/screens.js`. No application code yet. `.editorconfig` and the gitleaks CI job are in place.
+Status (2026-11-13): design artifact approved. The five decisions below are locked. Figma file `space_x_proj`, page `Plate`, has 8 boards built by `design/figma/screens.js`. Compose boots `api` and `web` (health checks, non-root, read-only root, SQLite on `plate-data`). No domain code yet. `.editorconfig` and the gitleaks CI job are in place. The `api` and `images` CI jobs build the health shell and do not push.
 
 ## What this is not
 
@@ -84,7 +84,7 @@ Why server-side revisions: undo has to cover Grok's edits, survive a reload, and
 Each step is one branch and one or more small commits, with its tests and docs in the same branch.
 
 1. Done: `.editorconfig` and the gitleaks job in `.github/workflows/ci.yml`. `.gitignore` and `.env.example` already existed.
-2. Compose file that boots `api` and `web` with health checks, non-root, read-only, SQLite on a volume.
+2. Done on `2_ops_feat_compose_health`: Compose boots `api` and `web` with health checks, non-root, read-only, SQLite on a volume. The page at `/` is an ops placeholder. The Angular shell is still step 6.
 3. C# domain: part, limits, geometry, `Apply`. Tests first for "hole outside the plate", "stock shrink that orphans a hole", "features 0.5 mm apart".
 4. Data: EF model, first migration, `PartCommands` with version and revisions, undo and redo.
 5. HTTP contract and middleware: error body, Origin/Host, limits, OpenAPI.
@@ -104,9 +104,10 @@ Each step is one branch and one or more small commits, with its tests and docs i
 | Change the look | `docs/design.md`, then `design/figma/screens.js`, then Figma, then `tokens.css` | Put a hex value in a component |
 | Persist a field | EF model, a migration, and the ERD | A second store beside SQLite |
 | Change the API | `backend.md` table, endpoint, regenerated TS types | Hand-edit the TS types |
-| Run it | Docker Compose, per `docs/operations.md` | A pile of manual processes |
+| Run it | `compose.yaml`, `api/Dockerfile`, `web/Dockerfile` | A pile of manual processes |
+| Health and config | `api/src/Plate.Api` | Re-implement the check in nginx or Angular |
 
-Code paths do not exist yet. When they do, name them in this table.
+Code paths for the domain do not exist yet. When they do, name them in this table.
 
 ## Interview sentence
 

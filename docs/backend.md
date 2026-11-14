@@ -97,6 +97,8 @@ All bodies are `application/json`. Any other `Content-Type` on a POST is 415. Bo
 | --- | --- | --- | --- |
 | GET | `/health/live` | none | 200 when the process runs |
 | GET | `/health/ready` | none | 200 when SQLite opens and no migration is pending. Body `{ "db": true, "grok": true\|false }`; `grok` is key and model presence, never a provider call. |
+
+Development only, and only when `PLATE_API_DOCS` is exactly `true`: `GET /docs` (Swagger UI) and `GET /openapi/v1.json`. Production does not map either route. The flag does not override Production.
 | GET | `/api/parts` | none | `[{ id, name, material, updatedAt }]`, newest first, max 500 |
 | POST | `/api/parts` | `{ name?, material?, length?, width?, thickness? }` | 201 part. Missing fields take the PLATE-001 defaults. |
 | GET | `/api/parts/{id}` | none | Part with features and `version` |

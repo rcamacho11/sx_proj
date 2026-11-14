@@ -30,3 +30,47 @@ jobs:
 
       - name: Scan the full history
         run: gitleaks git . --redact --verbose
+
+  api:
+    name: api
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          global-json-file: global.json
+
+      - name: Restore
+        run: dotnet restore api/Plate.sln --locked-mode
+
+      - name: Format
+        run: dotnet format api/Plate.sln --verify-no-changes
+
+      - name: Build
+        run: dotnet build api/Plate.sln --no-restore -warnaserror
+
+      - name: Test
+        run: dotnet test api/Plate.sln --no-build --nologo
+
+      - name: Vulnerable packages
+        run: |
+          set -euo pipefail
+          dotnet list api/Plate.sln package --vulnerable --include-transitive | tee /tmp/vuln.txt
+          if grep -q "has the following vulnerable packages" /tmp/vuln.txt; then
+            exit 1
+          fi
+
+  images:
+    name: images
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Build api and web
+        run: |
+          docker build -f api/Dockerfile -t plate-api:ci .
+          docker build -f web/Dockerfile -t plate-web:ci .
